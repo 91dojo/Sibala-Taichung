@@ -19,6 +19,15 @@ namespace Sibala_Taichung
             Assert.AreEqual(EnumOutputType.NoPoint, sibala.OutputType); 
             Assert.AreEqual(0, sibala.Point); 
         }
+
+        [Test]
+        public void Sibala_When_Input_is_1_1_1_1_Should_return_Same()
+        {
+            var sibala = new Sibala(1, 1, 1, 1);
+            Assert.AreEqual("Same Color", sibala.Output);
+            Assert.AreEqual(EnumOutputType.SameColor, sibala.OutputType);
+            Assert.AreEqual(1, sibala.Point);
+        }
     }
 
     internal class Sibala
@@ -41,6 +50,7 @@ namespace Sibala_Taichung
                 Output = "No Points";
                 OutputType = EnumOutputType.NoPoint;
             }
+
         }
 
         private void SetResult(int dice1, int dice2, int dice3, int dice4)
