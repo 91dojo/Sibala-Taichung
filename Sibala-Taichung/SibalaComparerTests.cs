@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using System;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Sibala_Taichung
@@ -6,24 +7,27 @@ namespace Sibala_Taichung
     [TestFixture]
     public class SibalaComparerTests
     {
-        [Test]
-        public void ComparerNoPointAndNoPoint_Should_Return_Zero()
+        [TestCase(EnumOutputType.NoPoint, EnumOutputType.NoPoint, 0)]
+        [TestCase(EnumOutputType.NPoints, EnumOutputType.NoPoint, 1)]
+        [TestCase(EnumOutputType.NoPoint, EnumOutputType.NPoints, -1)]
+        [TestCase(EnumOutputType.SameColor, EnumOutputType.NoPoint, 1)]
+        [TestCase(EnumOutputType.NoPoint, EnumOutputType.SameColor, -1)]
+        public void ComparerOutputTypeCorrect(EnumOutputType xOutputType, EnumOutputType yOutputType, int expected)
         {
             var x = Substitute.For<ISibala>();
             var y = Substitute.For<ISibala>();
-            x.OutputType.Returns(EnumOutputType.NoPoint);
-            y.OutputType.Returns(EnumOutputType.NoPoint);
-            Assert.AreEqual(0, SibalaComparer.Compare(x, y));
+            x.OutputType.Returns(xOutputType);
+            y.OutputType.Returns(yOutputType);
+            Assert.AreEqual(expected, SibalaComparer.Compare(x, y));
         }
 
-        [Test]
-        public void ComparerNPointsAndNoPoint_Should_Return_One()
+        public void ComparerOutputTypeCorrectWithPoint(EnumOutputType xOutputType, EnumOutputType yOutputType, int xPoint, int yPoint, int expected)
         {
             var x = Substitute.For<ISibala>();
             var y = Substitute.For<ISibala>();
-            x.OutputType.Returns(EnumOutputType.NPoints);
-            y.OutputType.Returns(EnumOutputType.NoPoint);
-            Assert.AreEqual(1, SibalaComparer.Compare(x, y));
+            x.OutputType.Returns(xOutputType);
+            y.OutputType.Returns(yOutputType);
+            Assert.AreEqual(expected, SibalaComparer.Compare(x, y));
         }
     }
 
