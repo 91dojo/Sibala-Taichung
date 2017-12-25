@@ -11,22 +11,14 @@ namespace Sibala_Taichung
     [TestFixture()]
     class SibalaTests
     {
-        [Test]
-        public void Sibala_When_Input_is_1_2_3_4_Should_return_NoPoints()
+        [TestCase(1,2,3,4, "No Points", EnumOutputType.NoPoint, 0,TestName = "Sibala_When_Input_is_1_2_3_4_Should_return_NoPoints")]
+        [TestCase(1,1,1,1, "Same Color", EnumOutputType.SameColor, 1,TestName = "Sibala_When_Input_is_1_1_1_1_Should_return_Same")]
+        public void Sibala_Test(int dice1, int dice2, int dice3, int dice4, string expectedOutput, EnumOutputType ExpectedOutputType, int expectedPoint)
         {
-            var sibala = new Sibala(1,2,3,4);
-            Assert.AreEqual("No Points", sibala.Output); 
-            Assert.AreEqual(EnumOutputType.NoPoint, sibala.OutputType); 
-            Assert.AreEqual(0, sibala.Point); 
-        }
-
-        [Test]
-        public void Sibala_When_Input_is_1_1_1_1_Should_return_Same()
-        {
-            var sibala = new Sibala(1, 1, 1, 1);
-            Assert.AreEqual("Same Color", sibala.Output);
-            Assert.AreEqual(EnumOutputType.SameColor, sibala.OutputType);
-            Assert.AreEqual(1, sibala.Point);
+            var sibala = new Sibala(dice1,dice2,dice3,dice4);
+            Assert.AreEqual(expectedOutput, sibala.Output); 
+            Assert.AreEqual(ExpectedOutputType, sibala.OutputType); 
+            Assert.AreEqual(expectedPoint, sibala.Point); 
         }
     }
 
