@@ -25,41 +25,58 @@ namespace Sibala_Taichung
 
     internal class Sibala
     {
-        private List<int> diceList = new List<int>();
+        public string Output { get; set; }
+
+        public EnumOutputType OutputType { get; set; }
+
+        public int Point { get; set; }
+        
+        private List<int> Dice = new List<int>();
+
         public Sibala(int dice1, int dice2, int dice3, int dice4)
         {
-            diceList.Add(dice1);
-            diceList.Add(dice2);
-            diceList.Add(dice3);
-            diceList.Add(dice4);
+            Dice.Add(dice1);
+            Dice.Add(dice2);
+            Dice.Add(dice3);
+            Dice.Add(dice4);
             GetResult();
 
         }
 
         private void GetResult()
         {
-            if (diceList.GroupBy(x => x).Count() == diceList.Count)
+            if (IsNoPoint())
             {
-                Output = "No Points";
                 OutputType = EnumOutputType.NoPoint;
+                Output = "No Points";
             }
-            else if(diceList.Distinct().Count() == 1)
+            else if(IsSameColor())
             {
-                Output = "Same Color";
                 OutputType = EnumOutputType.SameColor;
-                Point = diceList.First();
+                Point = Dice.First();
+                Output = "Same Color";
             }
-            else if (diceList.Distinct().Count() == 3)
+            else if (IsNormalPoint())
             {
-                Point = diceList.GroupBy(x => x).Where(x => x.Count() == 1).Sum(x => x.Key);
+                Point = Dice.GroupBy(x => x).Where(x => x.Count() == 1).Sum(x => x.Key);
                 Output = Point + " Points";
                 OutputType = EnumOutputType.NPoints;
             }
         }
 
-        public string Output { get; set; }
-        public EnumOutputType OutputType { get; set; }
-        public int Point { get; set; }
+        private bool IsNoPoint()
+        {
+            return Dice.GroupBy(x => x).Count() == Dice.Count;
+        }
 
+        private bool IsNormalPoint()
+        {
+            return Dice.Distinct().Count() == 3;
+        }
+
+        private bool IsSameColor()
+        {
+            return Dice.Distinct().Count() == 1;
+        }
     }
 }
