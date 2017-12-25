@@ -49,6 +49,12 @@ namespace Sibala_Taichung
                 OutputType = EnumOutputType.SameColor;
                 Point = diceList.First();
             }
+            else if (diceList.Distinct().Count() == 3)
+            {
+                Point = diceList.GroupBy(x => x).Where(x => x.Count() == 1).Sum(x => x.Key);
+                Output = Point + " Points";
+                OutputType = EnumOutputType.NPoints;
+            }
         }
 
         public string Output { get; set; }
