@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NSubstitute;
+using NUnit.Framework;
 
 namespace Sibala_Taichung
 {
@@ -6,11 +7,13 @@ namespace Sibala_Taichung
     public class SibalaComparerTests
     {
         [Test]
-        public void TestMethod1()
+        public void ComparerCorrect()
         {
-            //ISibala x;
-            //ISibala y;
-            //Assert.AreEqual(0, SibalaComparer.Compare(x, y));
+            var x = Substitute.For<ISibala>();
+            var y = Substitute.For<ISibala>();
+            x.GetOutputType().Returns(EnumOutputType.NoPoint);
+            y.GetOutputType().Returns(EnumOutputType.NoPoint);
+            Assert.AreEqual(0, SibalaComparer.Compare(x, y));
         }
     }
 
@@ -18,12 +21,14 @@ namespace Sibala_Taichung
     {
         public static int Compare(ISibala x, ISibala y)
         {
-            return 0;
+            if(x.GetOutputType() == y.GetOutputType())
+                return 0;
+            return -1;
         }
     }
 
     public interface ISibala
     {
-
+        EnumOutputType GetOutputType();
     }
 }

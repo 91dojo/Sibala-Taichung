@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sibala_Taichung
 {
-    enum EnumOutputType
+    public enum EnumOutputType
     {
         NoPoint,
         NPoints,
