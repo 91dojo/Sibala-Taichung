@@ -50,12 +50,12 @@ namespace Sibala_Taichung
                 Output = "No Points";
                 OutputType = EnumOutputType.NoPoint;
             }
-
-        }
-
-        private void SetResult(int dice1, int dice2, int dice3, int dice4)
-        {
-            throw new NotImplementedException();
+            else if(diceList.Distinct().Count() == 1)
+            {
+                Output = "Same Color";
+                OutputType = EnumOutputType.SameColor;
+                Point = diceList.First();
+            }
         }
 
         public string Output { get; set; }
