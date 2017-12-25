@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumOutputType.cs" />
-    <Compile Include="SibalaComparer.cs" />
+    <Compile Include="SibalaComparerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
