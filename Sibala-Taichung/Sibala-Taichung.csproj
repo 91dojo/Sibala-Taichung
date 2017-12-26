@@ -58,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumOutputType.cs" />
+    <Compile Include="NoPointsHandler.cs" />
+    <Compile Include="NormalPointHandler.cs" />
+    <Compile Include="SameColorHandler.cs" />
     <Compile Include="Sibala.cs" />
     <Compile Include="SibalaComparerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
