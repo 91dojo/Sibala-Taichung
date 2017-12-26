@@ -38,7 +38,7 @@ namespace Sibala_Taichung
             _secondRoll.OutputType.Returns(EnumOutputType.SameColor);
             _firstRoll.Point.Returns(1);
             _secondRoll.Point.Returns(4);
-            Assert.IsTrue(SibalaComparer.Compare(_firstRoll, _secondRoll) >  0);
+            Assert.IsTrue(SibalaComparer.Compare(_firstRoll, _secondRoll) > 0);
         }
 
         [Test]
@@ -56,18 +56,18 @@ namespace Sibala_Taichung
 
     public class SibalaComparer
     {
-        
+        private static Dictionary<int, int> _samecolorlookup = new Dictionary<int, int>
+        {
+            {1,6},
+            {4,5},
+            {6,4},
+            {5,3},
+            {3,2},
+            {2,1}
+        };
+
         public static int Compare(ISibala x, ISibala y)
         {
-            var samecolorlookup = new Dictionary<int, int>
-            {
-                {1,6},
-                {4,5},
-                {6,4},
-                {5,3},
-                {3,2},
-                {2,1}
-            };
             if (x.OutputType == y.OutputType)
             {
                 if (x.OutputType == EnumOutputType.NoPoint)
@@ -77,13 +77,7 @@ namespace Sibala_Taichung
 
                 if (x.OutputType == EnumOutputType.SameColor)
                 {
-                    if (samecolorlookup[x.Point] > samecolorlookup[y.Point])
-                    {
-                        return 1;
-                    }
-
-                    return 0;
-
+                    return _samecolorlookup[x.Point] - _samecolorlookup[y.Point];
                 }
             }
             if (x.OutputType > y.OutputType)
