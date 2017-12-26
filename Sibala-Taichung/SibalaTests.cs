@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace Sibala_Taichung
 {
@@ -35,15 +31,11 @@ namespace Sibala_Taichung
 
         public Sibala(int dice1, int dice2, int dice3, int dice4)
         {
-            Dice.Add(dice1);
-            Dice.Add(dice2);
-            Dice.Add(dice3);
-            Dice.Add(dice4);
-            GetResult();
-
+            Dice = new List<int> {dice1, dice2, dice3, dice4};
+            Initialize();
         }
 
-        private void GetResult()
+        private void Initialize()
         {
             if (IsNoPoint())
             {
