@@ -55,7 +55,16 @@ namespace Sibala_Taichung
             _firstRoll.Point.Returns(4);
             _secondRoll.Point.Returns(6);
             Assert.IsTrue(SibalaComparer.Compare(_firstRoll, _secondRoll) > 0);
+        }
 
+        [Test]
+        public void Compare_Diff_Point_5_Should_Bigger_than_3()
+        {
+            _firstRoll.OutputType.Returns(EnumOutputType.NPoints);
+            _secondRoll.OutputType.Returns(EnumOutputType.NPoints);
+            _firstRoll.Point.Returns(3);
+            _secondRoll.Point.Returns(5);
+            Assert.IsTrue(SibalaComparer.Compare(_firstRoll, _secondRoll) < 0);
         }
 
     }
