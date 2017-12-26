@@ -103,6 +103,10 @@ namespace Sibala_Taichung
                 }
                 if (firstRoll.OutputType == EnumOutputType.NPoints)
                 {
+                    if (firstRoll.Point == secondRoll.Point)
+                    {
+                        return firstRoll.MaxPoint - secondRoll.MaxPoint;
+                    }
                     return firstRoll.Point - secondRoll.Point;
                 }
 
