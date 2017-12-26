@@ -81,18 +81,22 @@ namespace Sibala_Taichung
             {2, 1}
         };
 
-        public static int Compare(ISibala x, ISibala y)
+        public static int Compare(ISibala firstRoll, ISibala secondRoll)
         {
-            if (IsSameType(x, y))
+            if (IsSameType(firstRoll, secondRoll))
             {
-                if (IsSameColor(x))
+                if (IsSameColor(firstRoll))
                 {
-                    return _samecolorlookup[x.Point] - _samecolorlookup[y.Point];
+                    return _samecolorlookup[firstRoll.Point] - _samecolorlookup[secondRoll.Point];
+                }
+                if (firstRoll.OutputType == EnumOutputType.NPoints)
+                {
+                    return firstRoll.Point - secondRoll.Point;
                 }
 
                 return 0;
             }
-            if (x.OutputType > y.OutputType)
+            if (firstRoll.OutputType > secondRoll.OutputType)
             {
                 return 1; 
             }
