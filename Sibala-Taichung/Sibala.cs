@@ -23,56 +23,51 @@ namespace Sibala_Taichung
 
         private void Initialize()
         {
-            if (IsNoPoint())
+            var maxCountofGroup = Dice.GroupBy(x => x).Max(x => x.Count());
+            switch (maxCountofGroup)
             {
-                OutputType = EnumOutputType.NoPoint;
-                Output = "No Points";
-            }
-            else if (IsSameColor())
-            {
-                OutputType = EnumOutputType.SameColor;
-                Output = "Same Color";
-                Point = Dice.First();
-                MaxPoint = Dice.First();
-            }
-            else if (IsNormalPoint())
-            {
-                if (Dice.Distinct().Count() == 2)
-                {
-                    MaxPoint = Dice.GroupBy(x => x).Where(x => x.Count() == 2).Max(x => x.Key);
-                    Point = MaxPoint * 2;
-                }
-                else
-                {
-                    MaxPoint = Dice.GroupBy(x => x).Where(x => x.Count() == 1).Max(x => x.Key);
-                    Point = Dice.GroupBy(x => x).Where(x => x.Count() == 1).Sum(x => x.Key);
-                }
-                OutputType = EnumOutputType.NPoints;
-                Output = Point + " Points";
-                if (Point == 3)
-                {
-                    Output = "BG";
-                }
-                if (Point == 12)
-                {
-                    Output = "Sibala";
-                }
+                case 1:
+                case 3:
+                    GenerateNoPoint();
+                    break;
+                case 2:
+                    GenerateNormalPoint();
+                    break;
+                case 4:
+                    GenerateSamePoint();
+                    break;
             }
         }
 
-        private bool IsNoPoint()
+        private void GenerateNoPoint()
         {
-            return Dice.GroupBy(x => x).Count() == 4 || Dice.GroupBy(x => x).Any(x => x.Count() == 3);
+            OutputType = EnumOutputType.NoPoint;
+            Output = "No Points";
         }
 
-        private bool IsNormalPoint()
+        private void GenerateSamePoint()
         {
-            return Dice.Distinct().Count() == 3 || Dice.Distinct().Count() == 2;
+            OutputType = EnumOutputType.SameColor;
+            Output = "Same Color";
+            Point = Dice.First();
+            MaxPoint = Dice.First();
         }
 
-        private bool IsSameColor()
+        private void GenerateNormalPoint()
         {
-            return Dice.Distinct().Count() == 1;
+            var pairPoint = Dice.GroupBy(x => x).Where(x => x.Count() == 2).Min(x => x.Key);
+            Point = Dice.Where(x => x != pairPoint).Sum();
+            MaxPoint = Dice.Where(x => x != pairPoint).Max();
+            OutputType = EnumOutputType.NPoints;
+            Output = Point + " Points";
+            if (Point == 3)
+            {
+                Output = "BG";
+            }
+            if (Point == 12)
+            {
+                Output = "Sibala";
+            }
         }
     }
 }
