@@ -112,12 +112,7 @@ namespace Sibala_Taichung
 
                 return 0;
             }
-            if (firstRoll.OutputType > secondRoll.OutputType)
-            {
-                return 1; 
-            }
-                
-            return -1;
+            return firstRoll.OutputType - secondRoll.OutputType;
         }
 
         private static bool IsSameColor(ISibala x)
