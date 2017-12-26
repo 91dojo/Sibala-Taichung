@@ -31,14 +31,14 @@ namespace Sibala_Taichung
 
         public int Point { get; set; }
         
-        private List<int> Dice = new List<int>();
+        private List<int> dice = new List<int>();
 
         public Sibala(int dice1, int dice2, int dice3, int dice4)
         {
-            Dice.Add(dice1);
-            Dice.Add(dice2);
-            Dice.Add(dice3);
-            Dice.Add(dice4);
+            dice.Add(dice1);
+            dice.Add(dice2);
+            dice.Add(dice3);
+            dice.Add(dice4);
             GetResult();
 
         }
@@ -53,12 +53,12 @@ namespace Sibala_Taichung
             else if(IsSameColor())
             {
                 OutputType = EnumOutputType.SameColor;
-                Point = Dice.First();
+                Point = dice.First();
                 Output = "Same Color";
             }
             else if (IsNormalPoint())
             {
-                Point = Dice.GroupBy(x => x).Where(x => x.Count() == 1).Sum(x => x.Key);
+                Point = dice.GroupBy(x => x).Where(x => x.Count() == 1).Sum(x => x.Key);
                 Output = Point + " Points";
                 OutputType = EnumOutputType.NPoints;
             }
@@ -66,17 +66,17 @@ namespace Sibala_Taichung
 
         private bool IsNoPoint()
         {
-            return Dice.GroupBy(x => x).Count() == Dice.Count;
+            return dice.GroupBy(x => x).Count() == dice.Count;
         }
 
         private bool IsNormalPoint()
         {
-            return Dice.Distinct().Count() == 3;
+            return dice.Distinct().Count() == 3;
         }
 
         private bool IsSameColor()
         {
-            return Dice.Distinct().Count() == 1;
+            return dice.Distinct().Count() == 1;
         }
     }
 }

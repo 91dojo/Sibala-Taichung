@@ -12,16 +12,7 @@ namespace Sibala_Taichung
         [TestCase(EnumOutputType.NoPoint, EnumOutputType.NPoints, -1)]
         [TestCase(EnumOutputType.SameColor, EnumOutputType.NoPoint, 1)]
         [TestCase(EnumOutputType.NoPoint, EnumOutputType.SameColor, -1)]
-        public void ComparerOutputTypeCorrect(EnumOutputType xOutputType, EnumOutputType yOutputType, int expected)
-        {
-            var x = Substitute.For<ISibala>();
-            var y = Substitute.For<ISibala>();
-            x.OutputType.Returns(xOutputType);
-            y.OutputType.Returns(yOutputType);
-            Assert.AreEqual(expected, SibalaComparer.Compare(x, y));
-        }
-
-        public void ComparerOutputTypeCorrectWithPoint(EnumOutputType xOutputType, EnumOutputType yOutputType, int xPoint, int yPoint, int expected)
+        public void Compare_ByType(EnumOutputType xOutputType, EnumOutputType yOutputType, int expected)
         {
             var x = Substitute.For<ISibala>();
             var y = Substitute.For<ISibala>();
