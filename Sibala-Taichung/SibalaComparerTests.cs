@@ -66,6 +66,18 @@ namespace Sibala_Taichung
             _secondRoll.Point.Returns(5);
             Assert.IsTrue(SibalaComparer.Compare(_firstRoll, _secondRoll) < 0);
         }
+        [Test]
+        public void Compare_Same_Point_Diff_Max_Point()
+        {
+            _firstRoll.OutputType.Returns(EnumOutputType.NPoints);
+            _secondRoll.OutputType.Returns(EnumOutputType.NPoints);
+            _firstRoll.Point.Returns(7);
+            _secondRoll.Point.Returns(7);
+            _firstRoll.MaxPoint.Returns(5);
+            _secondRoll.MaxPoint.Returns(6);
+
+            Assert.IsTrue(SibalaComparer.Compare(_firstRoll, _secondRoll) < 0);
+        }
 
     }
 
@@ -119,6 +131,7 @@ namespace Sibala_Taichung
             EnumOutputType OutputType { get; }
 
             int Point { get; set; }
+            int MaxPoint { get; set; }
         }
     }
 }
