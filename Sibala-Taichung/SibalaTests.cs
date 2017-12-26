@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+﻿using NUnit.Framework;
 
 namespace Sibala_Taichung
 {
     [TestFixture()]
     class SibalaTests
     {
-        [TestCase(1,2,3,4, "No Points", EnumOutputType.NoPoint, 0,TestName = "Sibala_When_Input_is_1_2_3_4_Should_return_NoPoints")]
-        [TestCase(1,1,1,1, "Same Color", EnumOutputType.SameColor, 1,TestName = "Sibala_When_Input_is_1_1_1_1_Should_return_Same")]
-        [TestCase(1,3,2,1, "5 Points", EnumOutputType.NPoints, 5,TestName = "Sibala_When_Input_is_1_3_2_1_Should_return_5 Points")]
-        public void Sibala_Test(int dice1, int dice2, int dice3, int dice4, string expectedOutput, EnumOutputType ExpectedOutputType, int expectedPoint)
+        [TestCase(1, 2, 3, 4, "No Points", EnumOutputType.NoPoint, 0, 0, TestName = "Sibala_When_Input_is_1_2_3_4_Should_return_NoPoints")]
+        [TestCase(1, 1, 1, 1, "Same Color", EnumOutputType.SameColor, 1, 1, TestName = "Sibala_When_Input_is_1_1_1_1_Should_return_Same")]
+        [TestCase(1, 3, 2, 1, "5 Points", EnumOutputType.NPoints, 5, 3, TestName = "Sibala_When_Input_is_1_3_2_1_Should_return_5 Points")]
+        [TestCase(3, 4, 4, 3, "8 Points", EnumOutputType.NPoints, 8, 4, TestName = "Sibala_When_Input_is_3_4_4_3_Should_return_8 Points")]
+        public void Sibala_Test(int dice1, int dice2, int dice3, int dice4, string expectedOutput, EnumOutputType ExpectedOutputType, int expectedPoint, int expectedMaxPoint)
         {
             var sibala = new Sibala(dice1,dice2,dice3,dice4);
             Assert.AreEqual(expectedOutput, sibala.Output); 
@@ -31,14 +26,14 @@ namespace Sibala_Taichung
 
         public int Point { get; set; }
         
-        private List<int> dice = new List<int>();
+        private List<int> Dice = new List<int>();
 
         public Sibala(int dice1, int dice2, int dice3, int dice4)
         {
-            dice.Add(dice1);
-            dice.Add(dice2);
-            dice.Add(dice3);
-            dice.Add(dice4);
+            Dice.Add(dice1);
+            Dice.Add(dice2);
+            Dice.Add(dice3);
+            Dice.Add(dice4);
             GetResult();
 
         }
@@ -53,12 +48,12 @@ namespace Sibala_Taichung
             else if(IsSameColor())
             {
                 OutputType = EnumOutputType.SameColor;
-                Point = dice.First();
+                Point = Dice.First();
                 Output = "Same Color";
             }
             else if (IsNormalPoint())
             {
-                Point = dice.GroupBy(x => x).Where(x => x.Count() == 1).Sum(x => x.Key);
+                Point = Dice.GroupBy(x => x).Where(x => x.Count() == 1).Sum(x => x.Key);
                 Output = Point + " Points";
                 OutputType = EnumOutputType.NPoints;
             }
@@ -66,17 +61,17 @@ namespace Sibala_Taichung
 
         private bool IsNoPoint()
         {
-            return dice.GroupBy(x => x).Count() == dice.Count;
+            return Dice.GroupBy(x => x).Count() == Dice.Count;
         }
 
         private bool IsNormalPoint()
         {
-            return dice.Distinct().Count() == 3;
+            return Dice.Distinct().Count() == 3;
         }
 
         private bool IsSameColor()
         {
-            return dice.Distinct().Count() == 1;
+            return Dice.Distinct().Count() == 1;
         }
     }
 }

@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumOutputType.cs" />
+    <Compile Include="Sibala.cs" />
     <Compile Include="SibalaComparerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SibalaTests.cs" />
