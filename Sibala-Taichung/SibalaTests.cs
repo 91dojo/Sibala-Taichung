@@ -14,67 +14,11 @@ namespace Sibala_Taichung
         [TestCase(3, 1, 3, 3, "No Points", EnumOutputType.NoPoint, 0, 0, TestName = "Sibala_When_Input_is_3_1_3_3")]
         public void Sibala_Test(int dice1, int dice2, int dice3, int dice4, string expectedOutput, EnumOutputType ExpectedOutputType, int expectedPoint, int expectedMaxPoint)
         {
-            var sibala = new Sibala(dice1,dice2,dice3,dice4);
-            Assert.AreEqual(expectedOutput, sibala.Output); 
-            Assert.AreEqual(ExpectedOutputType, sibala.OutputType); 
-            Assert.AreEqual(expectedPoint, sibala.Point); 
-        }
-    }
-
-    internal class Sibala
-    {
-        public string Output { get; set; }
-
-        public EnumOutputType OutputType { get; set; }
-
-        public int Point { get; set; }
-        
-        private List<int> Dice = new List<int>();
-
-        public Sibala(int dice1, int dice2, int dice3, int dice4)
-        {
-            Dice.Add(dice1);
-            Dice.Add(dice2);
-            Dice.Add(dice3);
-            Dice.Add(dice4);
-            GetResult();
-
-        }
-
-        private void GetResult()
-        {
-            if (IsNoPoint())
-            {
-                OutputType = EnumOutputType.NoPoint;
-                Output = "No Points";
-            }
-            else if(IsSameColor())
-            {
-                OutputType = EnumOutputType.SameColor;
-                Point = Dice.First();
-                Output = "Same Color";
-            }
-            else if (IsNormalPoint())
-            {
-                Point = Dice.GroupBy(x => x).Where(x => x.Count() == 1).Sum(x => x.Key);
-                Output = Point + " Points";
-                OutputType = EnumOutputType.NPoints;
-            }
-        }
-
-        private bool IsNoPoint()
-        {
-            return Dice.GroupBy(x => x).Count() == Dice.Count;
-        }
-
-        private bool IsNormalPoint()
-        {
-            return Dice.Distinct().Count() == 3;
-        }
-
-        private bool IsSameColor()
-        {
-            return Dice.Distinct().Count() == 1;
+            var sibala = new Sibala(dice1, dice2, dice3, dice4);
+            Assert.AreEqual(expectedOutput, sibala.Output);
+            Assert.AreEqual(ExpectedOutputType, sibala.OutputType);
+            Assert.AreEqual(expectedPoint, sibala.Point);
+            Assert.AreEqual(expectedMaxPoint, sibala.MaxPoint);
         }
     }
 }
