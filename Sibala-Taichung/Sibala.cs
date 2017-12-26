@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Sibala_Taichung
 {
-    internal class Sibala
+    internal class Sibala : ISibala
     {
         public string Output { get; set; }
 
