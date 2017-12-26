@@ -49,12 +49,20 @@ namespace Sibala_Taichung
                 }
                 OutputType = EnumOutputType.NPoints;
                 Output = Point + " Points";
+                if (Point == 3)
+                {
+                    Output = "BG";
+                }
+                if (Point == 12)
+                {
+                    Output = "Sibala";
+                }
             }
         }
 
         private bool IsNoPoint()
         {
-            return Dice.GroupBy(x => x).Count() == Dice.Count;
+            return Dice.GroupBy(x => x).Count() == 4 || Dice.GroupBy(x => x).Any(x => x.Count() == 3);
         }
 
         private bool IsNormalPoint()
