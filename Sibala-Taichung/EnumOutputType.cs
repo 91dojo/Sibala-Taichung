@@ -8,8 +8,8 @@ namespace Sibala_Taichung
 {
     public enum EnumOutputType
     {
-        NoPoint,
-        NPoints,
-        SameColor
+        NoPoint = 0,
+        NPoints = 1,
+        SameColor = 2
     }
 }

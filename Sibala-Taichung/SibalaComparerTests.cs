@@ -18,17 +18,23 @@ namespace Sibala_Taichung
             _firstRoll = Substitute.For<SibalaComparer.ISibala>();
             _secondRoll = Substitute.For<SibalaComparer.ISibala>();
         }
-
-        [TestCase(EnumOutputType.NoPoint, EnumOutputType.NoPoint, 0)]
-        [TestCase(EnumOutputType.NPoints, EnumOutputType.NoPoint, 1)]
-        [TestCase(EnumOutputType.NoPoint, EnumOutputType.NPoints, -1)]
-        [TestCase(EnumOutputType.SameColor, EnumOutputType.NoPoint, 1)]
-        [TestCase(EnumOutputType.NoPoint, EnumOutputType.SameColor, -1)]
-        public void Compare_ByType(EnumOutputType xOutputType, EnumOutputType yOutputType, int expected)
+        
+        [TestCase(EnumOutputType.NoPoint, EnumOutputType.NPoints)]
+        [TestCase(EnumOutputType.NoPoint, EnumOutputType.SameColor)]
+        public void Compare_ByType_SecondRoll_Wn(EnumOutputType xOutputType, EnumOutputType yOutputType)
         {
             _firstRoll.OutputType.Returns(xOutputType);
             _secondRoll.OutputType.Returns(yOutputType);
-            Assert.AreEqual(expected, SibalaComparer.Compare(_firstRoll, _secondRoll));
+            Assert.IsTrue(SibalaComparer.Compare(_firstRoll, _secondRoll) < 0);
+        }
+
+        [TestCase(EnumOutputType.NPoints, EnumOutputType.NoPoint)]
+        [TestCase(EnumOutputType.SameColor, EnumOutputType.NoPoint)]
+        public void Compare_ByType_FirstRoll_Win(EnumOutputType xOutputType, EnumOutputType yOutputType)
+        {
+            _firstRoll.OutputType.Returns(xOutputType);
+            _secondRoll.OutputType.Returns(yOutputType);
+            Assert.IsTrue(SibalaComparer.Compare(_firstRoll, _secondRoll) > 0);
         }
 
         [Test]
@@ -58,36 +64,47 @@ namespace Sibala_Taichung
     {
         private static Dictionary<int, int> _samecolorlookup = new Dictionary<int, int>
         {
-            {1,6},
-            {4,5},
-            {6,4},
-            {5,3},
-            {3,2},
-            {2,1}
+            {1, 6},
+            {4, 5},
+            {6, 4},
+            {5, 3},
+            {3, 2},
+            {2, 1}
         };
 
         public static int Compare(ISibala x, ISibala y)
         {
-            if (x.OutputType == y.OutputType)
+            if (IsSameType(x, y))
             {
-                if (x.OutputType == EnumOutputType.NoPoint)
-                {
-                    return 0;
-                }
-
-                if (x.OutputType == EnumOutputType.SameColor)
+                if (IsSameColor(x))
                 {
                     return _samecolorlookup[x.Point] - _samecolorlookup[y.Point];
                 }
+
+                return 0;
             }
             if (x.OutputType > y.OutputType)
-                return 1;
+            {
+                return 1; 
+            }
+                
             return -1;
+        }
+
+        private static bool IsSameColor(ISibala x)
+        {
+            return x.OutputType == EnumOutputType.SameColor;
+        }
+
+        private static bool IsSameType(ISibala x, ISibala y)
+        {
+            return x.OutputType == y.OutputType;
         }
 
         public interface ISibala
         {
             EnumOutputType OutputType { get; }
+
             int Point { get; set; }
         }
     }
