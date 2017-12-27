@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Sibala_Taichung
 {
-    internal class Sibala
+    internal class Sibala : ISibala
     {
         public string Output { get; set; }
 
@@ -13,7 +13,7 @@ namespace Sibala_Taichung
 
         public int MaxPoint { get; set; }
 
-        private List<int> Dice = new List<int>();
+        public List<int> Dice = new List<int>();
 
         public Sibala(int dice1, int dice2, int dice3, int dice4)
         {
@@ -23,51 +23,25 @@ namespace Sibala_Taichung
 
         private void Initialize()
         {
+            GetDiceHandler().SetResult();
+        }
+
+        private IDiceHandler GetDiceHandler()
+        {
+            var diceHandlers = new Dictionary<int, IDiceHandler>()
+            {
+                {1, new NoPointHandler(this)},
+                {3, new NoPointHandler(this)},
+                {2, new NormalPointHanlder(this)},
+                {4, new SameColorHandler(this)},
+            };
             var maxCountofGroup = Dice.GroupBy(x => x).Max(x => x.Count());
-            switch (maxCountofGroup)
-            {
-                case 1:
-                case 3:
-                    GenerateNoPoint();
-                    break;
-                case 2:
-                    GenerateNormalPoint();
-                    break;
-                case 4:
-                    GenerateSamePoint();
-                    break;
-            }
+            return diceHandlers[maxCountofGroup];
         }
+    }
 
-        private void GenerateNoPoint()
-        {
-            OutputType = EnumOutputType.NoPoint;
-            Output = "No Points";
-        }
-
-        private void GenerateSamePoint()
-        {
-            OutputType = EnumOutputType.SameColor;
-            Output = "Same Color";
-            Point = Dice.First();
-            MaxPoint = Dice.First();
-        }
-
-        private void GenerateNormalPoint()
-        {
-            var pairPoint = Dice.GroupBy(x => x).Where(x => x.Count() == 2).Min(x => x.Key);
-            Point = Dice.Where(x => x != pairPoint).Sum();
-            MaxPoint = Dice.Where(x => x != pairPoint).Max();
-            OutputType = EnumOutputType.NPoints;
-            Output = Point + " Points";
-            if (Point == 3)
-            {
-                Output = "BG";
-            }
-            if (Point == 12)
-            {
-                Output = "Sibala";
-            }
-        }
+    internal interface IDiceHandler
+    {
+        void SetResult();
     }
 }
